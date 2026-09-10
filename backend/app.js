@@ -29,6 +29,21 @@ server.get('/produtos/ordenados', (req, res) => {
     });
 });
 
+server.get('/produtos/:id', (req, res) => {
+    const { id } = req.params;
+    
+    const sql = 'SELECT * FROM Produto WHERE id_produto = ?';
+
+    connection.query(sql, [id], (erro, resultados) => {
+        if (erro) {
+            return res.status(500).send({erro: erro.message});
+        }
+        res.json(resultados);
+    });
+});
+
+
+
 const PORT = 3056;
 
 server.listen(PORT, () => {
