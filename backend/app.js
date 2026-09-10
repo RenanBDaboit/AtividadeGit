@@ -42,7 +42,18 @@ server.get('/produtos/:id', (req, res) => {
     });
 });
 
+server.get('/produtos/busca/:nome', (req, res) => {
+    const termoBusca = '%' + req.params.nome + '%';
+    
+    const sql = 'SELECT * FROM Produto WHERE nome LIKE ?';
 
+    connection.query(sql, [termoBusca], (erro, resultados) => {
+        if (erro) {
+            return res.status(500).send({erro: erro.message});
+        }
+        res.json(resultados);
+    });
+});
 
 const PORT = 3056;
 
